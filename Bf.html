@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Happy Birthday!</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+      background: linear-gradient(to bottom right, #ffe0f0, #ffcce7);
+      font-family: 'Segoe UI', sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      text-align: center;
+      position: relative;
+    }
+
+    .balloon-center {
+      width: 180px;
+      height: 240px;
+      background-color: #ff4d6d;
+      border-radius: 50% 50% 45% 45%;
+      position: relative;
+      cursor: pointer;
+      animation: floatCenter 2s ease-in-out infinite alternate;
+      box-shadow: 0 0 30px rgba(0,0,0,0.15);
+    }
+
+    .balloon-center::after {
+      content: '';
+      position: absolute;
+      bottom: -30px;
+      left: 50%;
+      width: 2px;
+      height: 30px;
+      background: black;
+      transform: translateX(-50%);
+    }
+
+    @keyframes floatCenter {
+      0% { transform: translateY(0); }
+      100% { transform: translateY(-10px); }
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    h1, .cake {
+      font-size: 3em;
+      color: #d63384;
+      margin: 0.2em 0;
+      transform: scale(3);
+      opacity: 0;
+      animation: scaleDown 2.5s ease-out forwards;
+    }
+
+    .cake {
+      font-size: 5em;
+      animation-delay: 0.3s;
+    }
+
+    @keyframes scaleDown {
+      0% {
+        transform: scale(3);
+        opacity: 0;
+      }
+      50% {
+        opacity: 1;
+      }
+      100% {
+        transform: scale(1);
+        opacity: 1;
+      }
+    }
+
+    .followers, .message {
+      opacity: 0;
+      animation: fadeIn 2s ease forwards;
+    }
+
+    .followers {
+      font-size: 1.2em;
+      color: #555;
+      animation-delay: 3s;
+    }
+
+    .message {
+      font-size: 1.1em;
+      color: #333;
+      margin-top: 10px;
+      animation-delay: 3.5s;
+    }
+
+    @keyframes fadeIn {
+      to {
+        opacity: 1;
+      }
+    }
+
+    .balloon {
+      position: absolute;
+      width: 40px;
+      height: 60px;
+      background-color: red;
+      border-radius: 50% 50% 45% 45%;
+      animation: float 10s linear infinite;
+      z-index: 1;
+    }
+
+    .balloon::after {
+      content: '';
+      position: absolute;
+      bottom: -20px;
+      left: 50%;
+      width: 2px;
+      height: 20px;
+      background: black;
+      transform: translateX(-50%);
+    }
+
+    @keyframes float {
+      0% {
+        transform: translateY(100vh) translateX(0);
+        opacity: 0;
+      }
+      10% {
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(-120vh) translateX(30px);
+        opacity: 0;
+      }
+    }
+
+    audio {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Center balloon to click -->
+  <div class="balloon-center" id="startBalloon" title="Click me!"></div>
+
+  <!-- Hidden birthday content -->
+  <div id="birthdayContent" class="hidden">
+    <h1>🎉 Happy Birthday, Aum! 🎉</h1>
+    <div class="cake">🎂🎂🎂</div>
+    <p class="followers">Smile all year long, Aum! Even if I'm far away, I'm always with you in spirit. Take care of yourself and never forget to love yourself. With all my love, from Aya to my dear Aum🎈</p>
+    <p class="message">Wishing you joy, laughter, and cake on your special day! 🥳</p>
+  </div>
+
+  <!-- Your MP3 -->
+  <audio id="bg-music" loop>
+    <source src="sound.mp3" type="audio/mpeg">
+    Your browser does not support the audio element.
+  </audio>
+
+  <script>
+    function createBalloon() {
+      const balloon = document.createElement('div');
+      balloon.classList.add('balloon');
+
+      const colors = ['#ff4d6d', '#ffb3c1', '#c77dff', '#a29bfe', '#74c69d', '#ffd166'];
+      balloon.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+      balloon.style.left = Math.random() * 100 + 'vw';
+      balloon.style.animationDuration = 8 + Math.random() * 5 + 's';
+
+      document.body.appendChild(balloon);
+      setTimeout(() => balloon.remove(), 15000);
+    }
+
+    document.getElementById('startBalloon').addEventListener('click', () => {
+      // Hide the central balloon
+      document.getElementById('startBalloon').style.display = 'none';
+
+      // Show and animate the birthday content
+      const content = document.getElementById('birthdayContent');
+      content.classList.remove('hidden');
+
+      // Start music
+      const music = document.getElementById('bg-music');
+      music.play().catch(e => console.log("Audio play failed:", e));
+
+      // Start balloons
+      setInterval(createBalloon, 800);
+    });
+  </script>
+
+</body>
+</html>
